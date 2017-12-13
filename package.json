@@ -1,0 +1,45 @@
+{
+  "name": "eslint-plugin-monorepo",
+  "version": "1.0.0",
+  "description": "ESLint plugin for monorepos",
+  "keywords": [
+    "eslint",
+    "plugin",
+    "monorepo",
+    "yarn",
+    "workspaces",
+    "lerna"
+  ],
+  "main": "lib",
+  "files": [
+    "lib"
+  ],
+  "repository": "https://github.com/azz/eslint-plugin-monorepo",
+  "author": "Lucas Azzola <@azz>",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel --copy-files --out-dir lib src",
+    "lint": "eslint . --ignore-path=.gitignore",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.13.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "jest": "^21.2.1",
+    "prettier": "^1.9.2"
+  },
+  "dependencies": {
+    "eslint-module-utils": "^2.1.1",
+    "globby": "^7.1.1",
+    "load-json-file": "^4.0.0",
+    "parse-package-name": "^0.1.0",
+    "path-is-inside": "^1.0.2"
+  }
+}
