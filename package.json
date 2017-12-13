@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-monorepo",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "description": "ESLint plugin for monorepos",
   "keywords": [
     "eslint",
@@ -20,7 +20,8 @@
   "scripts": {
     "build": "babel --copy-files --out-dir lib src",
     "lint": "eslint . --ignore-path=.gitignore",
-    "test": "jest"
+    "test": "jest",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -33,7 +34,8 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-prettier": "^2.3.1",
     "jest": "^21.2.1",
-    "prettier": "^1.9.2"
+    "prettier": "^1.9.2",
+    "semantic-release": "^8.2.0"
   },
   "dependencies": {
     "eslint-module-utils": "^2.1.1",
