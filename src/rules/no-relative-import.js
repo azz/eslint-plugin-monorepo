@@ -7,21 +7,14 @@ import path from 'path';
 import getPackages from '../get-packages';
 
 export const meta = {
-  schema: [
-    makeOptionsSchema({
-      rootDir: {
-        type: 'string',
-        required: true,
-      },
-    }),
-  ],
+  schema: [makeOptionsSchema({})],
   fixable: 'code',
 };
 
 export const create = context => {
-  const { options: [{ rootDir, ...moduleUtilOptions }] } = context;
+  const { options: [moduleUtilOptions] } = context;
   const sourceFsPath = context.getFilename();
-  const packages = getPackages(rootDir);
+  const packages = getPackages(process.cwd());
 
   return moduleVisitor(node => {
     const resolvedPath = resolve(node.value, context);

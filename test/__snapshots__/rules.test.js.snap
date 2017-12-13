@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rules matches snapshot 1`] = `
+Object {
+  "no-internal-import": Object {
+    "create": [Function],
+    "meta": Object {
+      "schema": Array [
+        Object {
+          "additionalProperties": false,
+          "properties": Object {
+            "amd": Object {
+              "type": "boolean",
+            },
+            "commonjs": Object {
+              "type": "boolean",
+            },
+            "esmodule": Object {
+              "type": "boolean",
+            },
+            "ignore": Object {
+              "items": Object {
+                "type": "string",
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true,
+            },
+          },
+          "type": "object",
+        },
+      ],
+    },
+  },
+  "no-relative-import": Object {
+    "create": [Function],
+    "meta": Object {
+      "fixable": "code",
+      "schema": Array [
+        Object {
+          "additionalProperties": false,
+          "properties": Object {
+            "amd": Object {
+              "type": "boolean",
+            },
+            "commonjs": Object {
+              "type": "boolean",
+            },
+            "esmodule": Object {
+              "type": "boolean",
+            },
+            "ignore": Object {
+              "items": Object {
+                "type": "string",
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true,
+            },
+          },
+          "type": "object",
+        },
+      ],
+    },
+  },
+}
+`;

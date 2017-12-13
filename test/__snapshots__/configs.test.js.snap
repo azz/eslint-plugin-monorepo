@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`configs matches snapshot 1`] = `
+Object {
+  "recommended": Object {
+    "plugins": Array [
+      "monorepo",
+    ],
+    "rules": Object {
+      "monorepo/no-internal-import": "error",
+      "monorepo/no-relative-import": "error",
+    },
+  },
+}
+`;

@@ -5,19 +5,12 @@ import parse from 'parse-package-name';
 import getPackages from '../get-packages';
 
 export const meta = {
-  schema: [
-    makeOptionsSchema({
-      rootDir: {
-        type: 'string',
-        required: true,
-      },
-    }),
-  ],
+  schema: [makeOptionsSchema({})],
 };
 
 export const create = context => {
-  const { options: [{ rootDir, ...moduleUtilOptions }] } = context;
-  const packages = getPackages(rootDir);
+  const { options: [moduleUtilOptions] } = context;
+  const packages = getPackages(process.cwd());
 
   return moduleVisitor(node => {
     const { name, path: internalPath } = parse(node.value);

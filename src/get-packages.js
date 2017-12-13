@@ -23,17 +23,20 @@ export default directory => {
   throw new Error(`unable to find monorepo packages`);
 };
 
-const findPackages = (packageSpecs, rootDirectory) =>
-  packageSpecs
+const findPackages = (packageSpecs, rootDirectory) => {
+  return packageSpecs
     .reduce(
       (pkgDirs, pkgGlob) => [
         ...pkgDirs,
-        ...globby.sync(pkgGlob, { root: rootDirectory }),
+        ...globby.sync(path.join(rootDirectory, pkgGlob), {
+          nodir: false,
+        }),
       ],
       []
     )
     .map(fsPath => ({ fsPath, name: getPackageName(fsPath) }))
     .filter(({ name }) => name);
+};
 
 const getPackageName = packagePath => {
   const pkgJsonPath = path.join(packagePath, 'package.json');
