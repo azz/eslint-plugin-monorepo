@@ -14,8 +14,8 @@ env:
 install:
   - yarn
 script:
-  - yarn lint
   - yarn build
+  - yarn lint
   - yarn test
 after_success:
   - yarn semantic-release
