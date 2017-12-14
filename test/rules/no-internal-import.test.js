@@ -3,6 +3,7 @@ import path from 'path';
 import * as monorepo from '../../src';
 
 const RULE = 'no-internal-import';
+const ERROR = { message: `Import for monorepo package 'foo' is internal.` };
 const fixtures = path.join(__dirname, '../fixture/yarn');
 
 process.cwd = jest.fn(() => fixtures);
@@ -23,7 +24,7 @@ ruleTester.run(RULE, monorepo.rules[RULE], {
     {
       code: `import pkg from 'foo/src/pkg'`,
       filename: path.join(fixtures, 'packages/bar/index.js'),
-      errors: [{ message: `Import for monorepo package 'foo' is internal.` }],
+      errors: [ERROR],
     },
   ],
 });
