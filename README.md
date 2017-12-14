@@ -43,10 +43,10 @@ Forbids importing specific files from a monorepo package.
 
 ```js
 // Bad
-import '@company/module/src/foo.js';
+import 'module/src/foo.js';
 
 // Good
-import { foo } from '@company/module';
+import { foo } from 'module';
 ```
 
 ### `monorepo/no-relative-import` (fixable)
@@ -58,5 +58,5 @@ Forbids importing other packages from the monorepo with a relative path.
 import module from '../module';
 
 // Good
-import module from '@company/module';
+import module from 'module';
 ```
