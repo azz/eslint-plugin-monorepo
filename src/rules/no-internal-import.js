@@ -13,7 +13,7 @@ export const create = context => {
   const packages = getPackages(process.cwd());
 
   return moduleVisitor(node => {
-    const { name, path: internalPath } = parse(node.value);
+    const { name, path: internalPath } = tryParse(node.value);
     if (internalPath && packages.find(pkg => pkg.name === name)) {
       context.report({
         node,
@@ -21,4 +21,12 @@ export const create = context => {
       });
     }
   }, moduleUtilOptions);
+};
+
+const tryParse = text => {
+  try {
+    return parse(text);
+  } catch (error) {
+    return { path: text, name: '' };
+  }
 };
