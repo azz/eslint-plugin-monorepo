@@ -26,21 +26,21 @@ export const create = context => {
     }
 
     const pkg = packages.find(pkg => isInside(resolvedPath, pkg.fsPath));
-    if (pkg) {
-      const subPackagePath = path.relative(pkg.fsPath, resolvedPath);
-      context.report({
-        node,
-        message: `Import for monorepo package '${
-          pkg.name
-        }' should be absolute.`,
-        fix: fixer => {
-          fixer.replaceText(
-            node,
-            `${pkg.name}${subPackagePath !== '.' ? '/' + subPackagePath : ''}`
-          );
-        },
-      });
+    if (!pkg) {
+      return;
     }
+
+    const subPackagePath = path.relative(pkg.fsPath, resolvedPath);
+    context.report({
+      node,
+      message: `Import for monorepo package '${pkg.name}' should be absolute.`,
+      fix: fixer => {
+        fixer.replaceText(
+          node,
+          `${pkg.name}${subPackagePath !== '.' ? '/' + subPackagePath : ''}`
+        );
+      },
+    });
   }, moduleUtilOptions);
 };
 
