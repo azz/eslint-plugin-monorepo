@@ -3,6 +3,7 @@ import moduleVisitor, {
   makeOptionsSchema,
 } from 'eslint-module-utils/moduleVisitor';
 import isInside from 'path-is-inside';
+import minimatch from 'minimatch';
 import path from 'path';
 import getPackages from '../get-packages';
 
@@ -18,8 +19,9 @@ export const create = context => {
 
   return moduleVisitor(node => {
     const resolvedPath = resolve(node.value, context);
+    const packageDir = getPackageDir(sourceFsPath, packages);
 
-    if (!resolvedPath || isInside(resolvedPath, path.dirname(sourceFsPath))) {
+    if (!packageDir || !resolvedPath || isInside(resolvedPath, packageDir)) {
       return;
     }
 
@@ -40,4 +42,13 @@ export const create = context => {
       });
     }
   }, moduleUtilOptions);
+};
+
+const getPackageDir = (filePath, packages) => {
+  const match = packages.find(pkg =>
+    minimatch(filePath, path.join(pkg.fsPath, '**'))
+  );
+  if (match) {
+    return match.fsPath;
+  }
 };
