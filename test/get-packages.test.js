@@ -20,4 +20,8 @@ describe('getPackages()', () => {
   test('yarn matches snapshot', () => {
     expect(getPackages(YARN_DIR)).toMatchSnapshot();
   });
+
+  test('returns empty array when no packages', () => {
+    expect(getPackages(__dirname)).toEqual([]);
+  });
 });

@@ -20,7 +20,8 @@ export default directory => {
     }
   }
 
-  throw new Error(`unable to find monorepo packages`);
+  // Bail if we don't find any packages
+  return [];
 };
 
 const findPackages = (packageSpecs, rootDirectory) => {
