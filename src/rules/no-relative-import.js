@@ -5,7 +5,7 @@ import moduleVisitor, {
 import isInside from 'path-is-inside';
 import minimatch from 'minimatch';
 import path from 'path';
-import getPackages from '../get-packages';
+import getPackages from 'get-monorepo-packages';
 
 export const meta = {
   schema: [makeOptionsSchema({})],
@@ -25,19 +25,23 @@ export const create = context => {
       return;
     }
 
-    const pkg = packages.find(pkg => isInside(resolvedPath, pkg.fsPath));
+    const pkg = packages.find(pkg => isInside(resolvedPath, pkg.location));
     if (!pkg) {
       return;
     }
 
-    const subPackagePath = path.relative(pkg.fsPath, resolvedPath);
+    const subPackagePath = path.relative(pkg.location, resolvedPath);
     context.report({
       node,
-      message: `Import for monorepo package '${pkg.name}' should be absolute.`,
+      message: `Import for monorepo package '${
+        pkg.package.name
+      }' should be absolute.`,
       fix: fixer => {
         fixer.replaceText(
           node,
-          `${pkg.name}${subPackagePath !== '.' ? '/' + subPackagePath : ''}`
+          `${pkg.package.name}${
+            subPackagePath !== '.' ? '/' + subPackagePath : ''
+          }`
         );
       },
     });
@@ -46,9 +50,9 @@ export const create = context => {
 
 const getPackageDir = (filePath, packages) => {
   const match = packages.find(pkg =>
-    minimatch(filePath, path.join(pkg.fsPath, '**'))
+    minimatch(filePath, path.join(pkg.location, '**'))
   );
   if (match) {
-    return match.fsPath;
+    return match.location;
   }
 };
