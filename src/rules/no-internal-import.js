@@ -2,7 +2,7 @@ import moduleVisitor, {
   makeOptionsSchema,
 } from 'eslint-module-utils/moduleVisitor';
 import parse from 'parse-package-name';
-import getPackages from '../get-packages';
+import getPackages from 'get-monorepo-packages';
 
 export const meta = {
   schema: [makeOptionsSchema({})],
@@ -14,7 +14,7 @@ export const create = context => {
 
   return moduleVisitor(node => {
     const { name, path: internalPath } = tryParse(node.value);
-    if (internalPath && packages.find(pkg => pkg.name === name)) {
+    if (internalPath && packages.find(pkg => pkg.package.name === name)) {
       context.report({
         node,
         message: `Import for monorepo package '${name}' is internal.`,
