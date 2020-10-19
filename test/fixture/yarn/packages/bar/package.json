@@ -1,4 +1,10 @@
 {
   "name": "bar",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "files": [
+    "index.js",
+    "allowed.js",
+    "nested",
+    "complex/glob/**/*.{js,ts}"
+  ]
 }
