@@ -13,7 +13,9 @@ export const meta = {
 };
 
 export const create = context => {
-  const { options: [moduleUtilOptions] } = context;
+  const {
+    options: [moduleUtilOptions],
+  } = context;
   const sourceFsPath = context.getFilename();
   const packages = getPackages(process.cwd());
 
@@ -33,9 +35,7 @@ export const create = context => {
     const subPackagePath = path.relative(pkg.location, resolvedPath);
     context.report({
       node,
-      message: `Import for monorepo package '${
-        pkg.package.name
-      }' should be absolute.`,
+      message: `Import for monorepo package '${pkg.package.name}' should be absolute.`,
       fix: fixer => {
         fixer.replaceText(
           node,
