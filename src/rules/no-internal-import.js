@@ -32,6 +32,10 @@ export const create = context => {
   return moduleVisitor(node => {
     const { name, path: internalPath } = tryParse(node.value);
     const matchedPackage = packages.find(pkg => pkg.package.name === name);
+
+    if (!internalPath) return;
+    if (!matchedPackage) return;
+
     const packageRoot = matchedPackage.location;
 
     // Need to take care of "files" field, since they are
@@ -52,8 +56,6 @@ export const create = context => {
       });
     const absoluteInternalPath = path.join(packageRoot, internalPath);
 
-    if (!internalPath) return;
-    if (!matchedPackage) return;
     if (absolutePathsForFiles) {
       const isImportWithinFiles = absolutePathsForFiles.some(maybeGlob => {
         // If import doesn't have an extension, strip it from the file entry
