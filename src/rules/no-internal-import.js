@@ -32,7 +32,9 @@ export const create = context => {
   return moduleVisitor(node => {
     const { name, path: internalPath } = tryParse(node.value);
     const matchedPackage = packages.find(pkg => pkg.package.name === name);
-    if (!internalPath || !matchedPackage) return;
+
+    if (!internalPath) return;
+    if (!matchedPackage) return;
 
     const packageRoot = matchedPackage.location;
 
