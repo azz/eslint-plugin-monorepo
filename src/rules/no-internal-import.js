@@ -32,28 +32,32 @@ export const create = context => {
   return moduleVisitor(node => {
     const { name, path: internalPath } = tryParse(node.value);
     const matchedPackage = packages.find(pkg => pkg.package.name === name);
+    if (!internalPath || !matchedPackage) return;
+
     const packageRoot = matchedPackage.location;
 
     // Need to take care of "files" field, since they are
     // supposed to be part of the public API of the package
     const absolutePathsForFiles =
       matchedPackage.package.files &&
-      matchedPackage.package.files.map(file => {
+      matchedPackage.package.files.reduce((acc, file) => {
         const fileOrDirOrGlob = path.join(packageRoot, file);
+        acc.push(fileOrDirOrGlob);
 
         try {
           if (fs.lstatSync(fileOrDirOrGlob).isDirectory()) {
-            return path.join(fileOrDirOrGlob, '**', '*');
+            // Need to also include
+            // all of the files inside the folder
+            acc.push(path.join(fileOrDirOrGlob, '**', '*'));
           }
-          return fileOrDirOrGlob;
         } catch (e) {
-          return fileOrDirOrGlob;
+          // do nothing
         }
-      });
+
+        return acc;
+      }, []);
     const absoluteInternalPath = path.join(packageRoot, internalPath);
 
-    if (!internalPath) return;
-    if (!matchedPackage) return;
     if (absolutePathsForFiles) {
       const isImportWithinFiles = absolutePathsForFiles.some(maybeGlob => {
         // If import doesn't have an extension, strip it from the file entry
