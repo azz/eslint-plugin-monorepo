@@ -30,6 +30,14 @@ ruleTester.run(RULE, monorepo.rules[RULE], {
       filename: path.join(fixtures, 'packages/bar/index.js'),
     },
     {
+      code: `import { pkg } from 'bar/nested'`,
+      filename: path.join(fixtures, 'packages/bar/index.js'),
+    },
+    {
+      code: `import { pkg } from 'non-existent-package/nested'`,
+      filename: path.join(fixtures, 'packages/bar/index.js'),
+    },
+    {
       code: `import { pkg } from 'bar/nested/this/is/also/allowed'`,
       filename: path.join(fixtures, 'packages/bar/index.js'),
     },
