@@ -3,7 +3,6 @@ import moduleVisitor, {
   makeOptionsSchema,
 } from 'eslint-module-utils/moduleVisitor';
 import isInside from 'path-is-inside';
-import minimatch from 'minimatch';
 import path from 'path';
 import getPackages from 'get-monorepo-packages';
 
@@ -20,6 +19,9 @@ export const create = context => {
   const packages = getPackages(process.cwd());
 
   return moduleVisitor(node => {
+    if (!node.value.includes('..')) {
+      return;
+    }
     const resolvedPath = resolve(node.value, context);
     const packageDir = getPackageDir(sourceFsPath, packages);
 
@@ -50,7 +52,7 @@ export const create = context => {
 
 const getPackageDir = (filePath, packages) => {
   const match = packages.find(pkg =>
-    minimatch(filePath, path.join(pkg.location, '**'))
+    isInside(filePath, pkg.location)
   );
   if (match) {
     return match.location;
