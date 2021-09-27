@@ -2,10 +2,10 @@ import moduleVisitor, {
   makeOptionsSchema,
 } from 'eslint-module-utils/moduleVisitor';
 import parse from 'parse-package-name';
-import getPackages from 'get-monorepo-packages';
 import path from 'path';
 import minimatch from 'minimatch';
 import fs from 'fs';
+import getPackages from '../util/get-packages';
 
 export const meta = {
   schema: [makeOptionsSchema({})],
