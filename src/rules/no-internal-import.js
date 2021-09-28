@@ -1,14 +1,16 @@
 import moduleVisitor, {
   makeOptionsSchema,
 } from 'eslint-module-utils/moduleVisitor';
-import parse from 'parse-package-name';
-import getPackages from 'get-monorepo-packages';
-import path from 'path';
-import minimatch from 'minimatch';
+
 import fs from 'fs';
+import getPackages from 'get-monorepo-packages';
+import minimatch from 'minimatch';
+import parse from 'parse-package-name';
+import path from 'path';
 
 export const meta = {
   schema: [makeOptionsSchema({})],
+  fixable: 'code'
 };
 
 const withoutExtension = (importFile, fileEntry) => {
@@ -76,6 +78,10 @@ export const create = context => {
     context.report({
       node,
       message: `Import for monorepo package '${name}' is internal.`,
+      fix: function fix(fixer) {
+        const path = _path.parse(node.value).dir
+        return fixer.replaceText(node, '\'' + path + '\'');
+      }
     });
   }, moduleUtilOptions);
 };
