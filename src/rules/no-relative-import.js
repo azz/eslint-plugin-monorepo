@@ -1,11 +1,12 @@
-import resolve from 'eslint-module-utils/resolve';
 import moduleVisitor, {
   makeOptionsSchema,
 } from 'eslint-module-utils/moduleVisitor';
+
+import getPackages from 'get-monorepo-packages';
 import isInside from 'path-is-inside';
 import minimatch from 'minimatch';
 import path from 'path';
-import getPackages from 'get-monorepo-packages';
+import resolve from 'eslint-module-utils/resolve';
 
 export const meta = {
   schema: [makeOptionsSchema({})],
@@ -37,12 +38,10 @@ export const create = context => {
       node,
       message: `Import for monorepo package '${pkg.package.name}' should be absolute.`,
       fix: fixer => {
-        fixer.replaceText(
-          node,
-          `${pkg.package.name}${
-            subPackagePath !== '.' ? '/' + subPackagePath : ''
-          }`
-        );
+        const basePath = '' + pkg.package.name + (subPackagePath !== '.' ? '/' + subPackagePath : '')
+        const path = _path.parse(basePath).dir
+        const name = _path.parse(basePath).name
+        return fixer.replaceText(node, '\'' + (name !== '.' && name !== 'index' ? path + '/' + name : path) + '\'');
       },
     });
   }, moduleUtilOptions);
